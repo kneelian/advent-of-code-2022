@@ -45,4 +45,10 @@ uint64_t day2part1(bool testing)
     return time_total;
 } // somethings not working right, fix tomorrow
 
+uint64_t day2part2(bool testing)
+{
+    return 1;
+}
+
 std::function<uint64_t(bool)> d2p1obj = day2part1;
+std::function<uint64_t(bool)> d2p2obj = day2part2;

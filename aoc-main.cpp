@@ -109,7 +109,7 @@ int main(int argc, char* argv[])
 	= {
 		{ nullptr },
 		{ d1p2obj },
-		{ nullptr },
+		{ d2p2obj },
 		{ nullptr },
 		{ nullptr },
 		{ nullptr },
