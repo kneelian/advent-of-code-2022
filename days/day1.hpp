@@ -52,7 +52,6 @@ uint64_t day1part1(bool testing) {
 	in_values.close();
 	results.close();
 	return time_total;
-	// return
 }
 
 uint64_t day1part2(bool testing) {
@@ -110,10 +109,7 @@ uint64_t day1part2(bool testing) {
 
 	results << top1 + top2 + top3; 
 
-	uint64_t time_total = std::chrono::duration_cast
-						 	<std::chrono::nanoseconds>
-						 	(std::chrono::high_resolution_clock::now() - time_start)
-						 .count();
+	uint64_t time_total = std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now() - time_start).count();
 	
 	in_values.close();
 	results.close();
