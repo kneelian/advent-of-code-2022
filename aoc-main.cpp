@@ -70,8 +70,8 @@ int main(int argc, char* argv[])
 	for(int a = 1; a < argc; a++)
 	{
 		options.push_back(argv[a]);
-	}
-	*/
+	}*/
+	
 
 	SetConsoleOutputCP(CP_UTF8);
 	setvbuf(stdout, nullptr, _IOFBF, 1000);
@@ -81,7 +81,7 @@ int main(int argc, char* argv[])
 		{ nullptr },
 		{ d1p1obj },
 		{ d2p1obj },
-		{ nullptr },
+		{ d3p1obj },
 		{ nullptr },
 		{ nullptr },
 		{ nullptr },
@@ -110,7 +110,7 @@ int main(int argc, char* argv[])
 		{ nullptr },
 		{ d1p2obj },
 		{ d2p2obj },
-		{ nullptr },
+		{ d3p2obj },
 		{ nullptr },
 		{ nullptr },
 		{ nullptr },
@@ -169,7 +169,7 @@ int main(int argc, char* argv[])
 				std::cout << std::fixed << std::showpoint << std::setprecision(1);
 				std::cout << "d" << i << "p1"
 						  << " Σt ≈ " << float(total_time_ns)/1000 << "μs" 
-						  << std::setprecision(3) <<  " (avg: " << float(total_time_ns)/(times*1000) << "μs)"
+						  << std::setprecision(3) <<  "\t(avg: " << float(total_time_ns)/(times*1000) << "μs, " <<float(total_time_ns)/(times*1000*1000) << "ms)"
 						  << std::endl;
 			}
 			total_time_ns = 0;
@@ -182,7 +182,7 @@ int main(int argc, char* argv[])
 				std::cout << std::fixed << std::showpoint << std::setprecision(1);
 				std::cout << "d" << i << "p2"
 						  << " Σt ≈ " << float(total_time_ns)/1000 << "μs" 
-						  << std::setprecision(3) <<  " (avg: " << float(total_time_ns)/(times*1000) << "μs)"
+						  << std::setprecision(3) <<  "\t(avg: " << float(total_time_ns)/(times*1000) << "μs, " <<float(total_time_ns)/(times*1000*1000) << "ms)"
 						  << std::endl;
 			}
 		}

@@ -36,14 +36,14 @@ uint64_t day2part1(bool testing)
 
     while(std::getline(in_values, line))
     {
-        int him = line[0] - 65; //him
-        int me  = line[2] - 88; //me
-
-        score += (me+1) + ((me - him + 4)%3)*3;
+        score += (line[2] - 87) + (((line[2] - 88) - (line[0] - 61))%3)*3;
     }
     results << score;
 
     uint64_t time_total = std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now() - time_start).count();
+    
+    in_values.close();
+    results.close();
     
     return time_total;
 } 
@@ -77,15 +77,14 @@ uint64_t day2part2(bool testing)
 
     while(std::getline(in_values, line))
     {
-        int him = line[0] - 65; //him
-        int me  = line[2] - 88; //me
-
-        score += 1 + (me * 3) + ((me + him + 2)%3);
+        score += 1 + ((line[2] - 88) * 3) + (((line[2] - 88) + (line[0] - 65) + 2)%3);
     }
     results << score;
 
     uint64_t time_total = std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now() - time_start).count();
 
+    in_values.close();
+    results.close();
     
     return time_total;
 } 
