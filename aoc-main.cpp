@@ -82,7 +82,7 @@ int main(int argc, char* argv[])
 		{ d1p1obj },
 		{ d2p1obj },
 		{ d3p1obj },
-		{ nullptr },
+		{ d4p1obj },
 		{ nullptr },
 		{ nullptr },
 		{ nullptr },
@@ -111,7 +111,7 @@ int main(int argc, char* argv[])
 		{ d1p2obj },
 		{ d2p2obj },
 		{ d3p2obj },
-		{ nullptr },
+		{ d4p2obj },
 		{ nullptr },
 		{ nullptr },
 		{ nullptr },
@@ -135,7 +135,10 @@ int main(int argc, char* argv[])
 		{ nullptr }
 	};
 
+	uint64_t overall_time_ns = 0;
+
 	uint64_t total_time_ns = 0;
+	std::cout << '\n';
 	if(!opt_batch)
 	{
 		for(int i = times; i != 0; i--)
@@ -149,16 +152,18 @@ int main(int argc, char* argv[])
 				total_time_ns += part1_array[day](opt_sample);
 			}
 		}
+
 		std::cout << std::fixed << std::showpoint << std::setprecision(1);
 		std::cout << "d" << day << "p" << part 
-			  << " Σt ≈ " << float(total_time_ns)/1000 << "μs" 
-			  << std::setprecision(3) <<  " (avg: " << float(total_time_ns)/(times*1000) << "μs)"
+			  << " Σt ≈ " << double(total_time_ns)/1000 << "μs" 
+			  << std::setprecision(3) <<  " (avg: " << double(total_time_ns)/(times*1000) << "μs)"
 			  << std::endl;
 	}
 	else
 	{
 		for(int i = 0; i < 26; i++)
 		{
+			overall_time_ns += total_time_ns;
 			total_time_ns = 0;
 			if(part1_array[i] != 0)
 			{
@@ -168,8 +173,8 @@ int main(int argc, char* argv[])
 				}
 				std::cout << std::fixed << std::showpoint << std::setprecision(1);
 				std::cout << "d" << i << "p1"
-						  << " Σt ≈ " << float(total_time_ns)/1000 << "μs" 
-						  << std::setprecision(3) <<  "\t(avg: " << float(total_time_ns)/(times*1000) << "μs, " <<float(total_time_ns)/(times*1000*1000) << "ms)"
+						  << " Σt ≈ " << double(total_time_ns)/1000 << "μs" 
+						  << std::setprecision(3) <<  "\t(avg: " << double(total_time_ns)/(times*1000) << "μs, " <<double(total_time_ns)/(times*1000*1000) << "ms)"
 						  << std::endl;
 			}
 			total_time_ns = 0;
@@ -181,11 +186,12 @@ int main(int argc, char* argv[])
 				}
 				std::cout << std::fixed << std::showpoint << std::setprecision(1);
 				std::cout << "d" << i << "p2"
-						  << " Σt ≈ " << float(total_time_ns)/1000 << "μs" 
-						  << std::setprecision(3) <<  "\t(avg: " << float(total_time_ns)/(times*1000) << "μs, " <<float(total_time_ns)/(times*1000*1000) << "ms)"
+						  << " Σt ≈ " << double(total_time_ns)/1000 << "μs" 
+						  << std::setprecision(3) <<  "\t(avg: " << double(total_time_ns)/(times*1000) << "μs, " <<double(total_time_ns)/(times*1000*1000) << "ms)"
 						  << std::endl;
 			}
 		}
+		std::cout << "------------------------\nOverall time taken Στ ≈ " << std::setprecision(1) <<  double(overall_time_ns)/1000 << "μs (appx. ~" << std::setprecision(3)<< double(overall_time_ns)/(1000*1000) << "ms)\n" << std::endl;
 	}
 
 	return 0;
