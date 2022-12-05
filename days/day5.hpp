@@ -44,24 +44,23 @@ uint64_t day5part1(bool testing)
     auto time_start = std::chrono::high_resolution_clock::now();
     //int score = 0;
     std::string line;
-
-    std::vector<std::string> temp;
     std::array<std::deque<char>,9> stacks;
 
     do
     {
         std::getline(in_values, line);
         if(line.size() < 3) { break; }
-        temp = split<std::string>(line, " ");
+
         for(int i = 0; i < 9; i++)
         {
-            if(temp[i][1] == '0') { continue; }
-            stacks[i].push_back(temp[i][1]);
+            if(line[1 + (4*i)] == '0') { continue; }
+            stacks[i].push_back(line[1+(4*i)]);
         }
 
     } while(1);
 
     int num =0, source =0, dest =0;
+    std::vector<std::string> temp;
 
     while(std::getline(in_values, line))
     {
@@ -120,24 +119,22 @@ uint64_t day5part2(bool testing)
     auto time_start = std::chrono::high_resolution_clock::now();
     //int score = 0;
     std::string line;
-
-    std::vector<std::string> temp;
     std::array<std::deque<char>,10> stacks;
 
     do
     {
         std::getline(in_values, line);
         if(line.size() < 3) { break; }
-        temp = split<std::string>(line, " ");
         for(int i = 0; i < 9; i++)
         {
-            if(temp[i][1] == '0') { continue; }
-            stacks[i].push_back(temp[i][1]);
+            if(line[1 + (4*i)] == '0') { continue; }
+            stacks[i].push_back(line[1+(4*i)]);
         }
 
     } while(1);
 
     int num =0, source =0, dest =0;
+    std::vector<std::string> temp;
 
     while(std::getline(in_values, line))
     {
