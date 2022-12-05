@@ -144,6 +144,18 @@ uint64_t day5part2(bool testing)
         source = atoi(temp[3].c_str()) - 1;
         dest   = atoi(temp[5].c_str()) - 1;
 
+        /*
+            for(int i = num; i > 0; i--)
+            {
+                stacks[dest].push_front(stacks[source][i]);
+                stacks[source].pop_front();
+            }
+            for(int i = 0; i < num; i++)
+            {
+                stacks[source].pop_front();
+            }
+        */
+
         for(int i = 0; i < num; i++)
         {
             stacks[9].push_front(stacks[source].front());
