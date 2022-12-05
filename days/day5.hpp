@@ -42,7 +42,7 @@ uint64_t day5part1(bool testing)
     /* boilerplate end */
 
     auto time_start = std::chrono::high_resolution_clock::now();
-    int score = 0;
+    //int score = 0;
     std::string line;
 
     std::vector<std::string> temp;
@@ -51,8 +51,8 @@ uint64_t day5part1(bool testing)
     do
     {
         std::getline(in_values, line);
-        if(line = '\n') { break; }
-        temp = split<std::string>(line, ' ');
+        if(line.size() < 3) { break; }
+        temp = split<std::string>(line, " ");
         for(int i = 0; i < 9; i++)
         {
             if(temp[i][1] == '0') { continue; }
@@ -65,8 +65,8 @@ uint64_t day5part1(bool testing)
 
     while(std::getline(in_values, line))
     {
-        if(line == '\n') { break; }
-        temp   = split<std::string>(line, ' ');
+        if(line == "\n") { break; }
+        temp   = split<std::string>(line, " ");
         num    = atoi(temp[1].c_str());
         source = atoi(temp[3].c_str()) - 1;
         dest   = atoi(temp[5].c_str()) - 1;
@@ -78,7 +78,14 @@ uint64_t day5part1(bool testing)
         }
     }
 
-    results << score;
+    line.clear();
+
+    for(int i = 0; i < 9; i++)
+    {
+        line += stacks[i].front();
+    }
+
+    results << line;
 
     in_values.close();
     results.close();
@@ -88,38 +95,77 @@ uint64_t day5part1(bool testing)
     return time_total;
 } 
 
-uint64_t day3part2(bool testing)
+uint64_t day5part2(bool testing)
 {
     /* boilerplate */
     if(testing)
-        { in_values.open("./in/d3-t-in.txt", std::ifstream::in); }
-    else{ in_values.open("./in/d3-in.txt",   std::ifstream::in); }
+        { in_values.open("./in/d5-t-in.txt", std::ifstream::in); }
+    else{ in_values.open("./in/d5-in.txt",   std::ifstream::in); }
     
     if(!in_values.is_open()) { 
-        std::cerr << "Can't open input file for day 3!\n";
+        std::cerr << "Can't open input file for day 5!\n";
         return -1;
     }
 
     if(testing)
-        { results.open("./out/d3p2-t-out.txt", std::ifstream::in); }
-    else{ results.open("./out/d3p2-out.txt",   std::ifstream::in); }
+        { results.open("./out/d5p1-t-out.txt", std::ifstream::in); }
+    else{ results.open("./out/d5p1-out.txt",   std::ifstream::in); }
 
     if(!results.is_open()) {
-        std::cerr << "Can't open output file for day 3 pt. 2!\n";
+        std::cerr << "Can't open output file for day 5 pt. 1!\n";
         return -1;
     }
     /* boilerplate end */
-    /*
-        if(n >= 'a') { n -= 'b'; }
-        else { n -= 0x26; }
-    */
-
+    
     auto time_start = std::chrono::high_resolution_clock::now();
+    //int score = 0;
+    std::string line;
 
-    int score = 0;
+    std::vector<std::string> temp;
+    std::array<std::deque<char>,10> stacks;
 
-    results << score;
-   // std::cout << score << std::endl;
+    do
+    {
+        std::getline(in_values, line);
+        if(line.size() < 3) { break; }
+        temp = split<std::string>(line, " ");
+        for(int i = 0; i < 9; i++)
+        {
+            if(temp[i][1] == '0') { continue; }
+            stacks[i].push_back(temp[i][1]);
+        }
+
+    } while(1);
+
+    int num =0, source =0, dest =0;
+
+    while(std::getline(in_values, line))
+    {
+        if(line == "\n") { break; }
+        temp   = split<std::string>(line, " ");
+        num    = atoi(temp[1].c_str());
+        source = atoi(temp[3].c_str()) - 1;
+        dest   = atoi(temp[5].c_str()) - 1;
+
+        for(int i = 0; i < num; i++)
+        {
+            stacks[9].push_front(stacks[source].front());
+            stacks[source].pop_front();
+        }
+        for(int i = 0; i < num; i++)
+        {
+            stacks[dest].push_front(stacks[9].front());
+            stacks[9].pop_front();
+        }
+    }
+
+    line.clear();
+
+    for(int i = 0; i < 9; i++)
+    {
+        line += stacks[i].front();
+    }
+    results << line;
 
     in_values.close();
     results.close();
