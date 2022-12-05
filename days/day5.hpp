@@ -46,10 +46,8 @@ uint64_t day5part1(bool testing)
     std::string line;
     std::array<std::deque<char>,9> stacks;
 
-    do
+    while(std::getline(in_values, line))
     {
-        std::getline(in_values, line);
-        if(line.size() < 3) { break; }
 
         for(int i = 0; i < 9; i++)
         {
@@ -57,14 +55,13 @@ uint64_t day5part1(bool testing)
             stacks[i].push_back(line[1+(4*i)]);
         }
 
-    } while(1);
+    } //while(1);
 
     int num =0, source =0, dest =0;
     std::vector<std::string> temp;
 
     while(std::getline(in_values, line))
     {
-        if(line == "\n") { break; }
         temp   = split<std::string>(line, " ");
         num    = atoi(temp[1].c_str());
         source = atoi(temp[3].c_str()) - 1;
@@ -121,17 +118,15 @@ uint64_t day5part2(bool testing)
     std::string line;
     std::array<std::deque<char>,10> stacks;
 
-    do
+    while(std::getline(in_values, line))
     {
-        std::getline(in_values, line);
-        if(line.size() < 3) { break; }
         for(int i = 0; i < 9; i++)
         {
             if(line[1 + (4*i)] == '0') { continue; }
             stacks[i].push_back(line[1+(4*i)]);
         }
 
-    } while(1);
+    }// while(1);
 
     int num =0, source =0, dest =0;
     std::vector<std::string> temp;
