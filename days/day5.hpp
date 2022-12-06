@@ -37,8 +37,8 @@ uint64_t day5part1(bool testing)
     std::FILE* result;
 
     if(testing)
-        { result = std::fopen("./out/d5p1-t-out.txt", "r+"); }
-    else{ result = std::fopen("./out/d5p1-out.txt"  , "r+"); }
+        { result = std::fopen("./out/d5p1-t-out.txt", "w"); }
+    else{ result = std::fopen("./out/d5p1-out.txt"  , "w"); }
 
     if(!result) {
         std::cerr << "Can't open output file for day 5 pt. 1!\n";
