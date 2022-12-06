@@ -1,16 +1,31 @@
 #pragma once
 
-template<typename T> std::vector<T> split(const T & str, const T & delimiters) {
-    std::vector<T> v;
-    typename T::size_type start = 0;
-    auto pos = str.find_first_of(delimiters, start);
-    while(pos != T::npos) {
+template<typename T> std::vector<T> split(const T & input, const T & delimiters) 
+{
+    std::vector<T> temporary;
+    size_t start = 0;
+
+    auto pos = input.find_first_of(delimiters, start);
+    while(pos != size_t(-1)) {
         if(pos != start) // ignore empty tokens
-            v.emplace_back(str, start, pos - start);
+        {
+            temporary.emplace_back(
+                input, 
+                start, 
+                pos - start
+            ); 
+        }
         start = pos + 1;
-        pos = str.find_first_of(delimiters, start);
+        pos = input.find_first_of(delimiters, start);
     }
-    if(start < str.length()) // ignore trailing delimiter
-        v.emplace_back(str, start, str.length() - start); // add what's left of the string
-    return v;
+
+    if(start < input.length()) // ignore trailing delimiter
+    { 
+        temporary.emplace_back(
+            input, 
+            start, 
+            input.length() - start
+        ); 
+    }
+    return temporary;
 }
