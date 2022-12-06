@@ -23,20 +23,20 @@ uint64_t day5part1(bool testing)
 {
     /* boilerplate */
     if(testing)
-        { in_values.open("./in/d5-t-in.txt", std::ifstream::in); }
-    else{ in_values.open("./in/d5-in.txt",   std::ifstream::in); }
+        { in_values.open("./in/d6-t-in.txt", std::ifstream::in); }
+    else{ in_values.open("./in/d6-in.txt",   std::ifstream::in); }
     
     if(!in_values.is_open()) { 
-        std::cerr << "Can't open input file for day 5!\n";
+        std::cerr << "Can't open input file for day 6!\n";
         return -1;
     }
 
     if(testing)
-        { results.open("./out/d5p1-t-out.txt", std::ifstream::in); }
-    else{ results.open("./out/d5p1-out.txt",   std::ifstream::in); }
+        { results.open("./out/d6p1-t-out.txt", std::ifstream::in); }
+    else{ results.open("./out/d6p1-out.txt",   std::ifstream::in); }
 
     if(!results.is_open()) {
-        std::cerr << "Can't open output file for day 5 pt. 1!\n";
+        std::cerr << "Can't open output file for day 6 pt. 1!\n";
         return -1;
     }
     /* boilerplate end */
@@ -95,8 +95,8 @@ uint64_t day5part2(bool testing)
 {
     /* boilerplate */
     if(testing)
-        { in_values.open("./in/d5-t-in.txt", std::ifstream::in); }
-    else{ in_values.open("./in/d5-in.txt",   std::ifstream::in); }
+        { in_values.open("./in/d6-t-in.txt", std::ifstream::in); }
+    else{ in_values.open("./in/d6-in.txt",   std::ifstream::in); }
     
     if(!in_values.is_open()) { 
         std::cerr << "Can't open input file for day 5!\n";
@@ -104,72 +104,19 @@ uint64_t day5part2(bool testing)
     }
 
     if(testing)
-        { results.open("./out/d5p2-t-out.txt", std::ifstream::in); }
-    else{ results.open("./out/d5p2-out.txt",   std::ifstream::in); }
+        { results.open("./out/d6p2-t-out.txt", std::ifstream::in); }
+    else{ results.open("./out/d6p2-out.txt",   std::ifstream::in); }
 
     if(!results.is_open()) {
-        std::cerr << "Can't open output file for day 5 pt. 2!\n";
+        std::cerr << "Can't open output file for day 6 pt. 1!\n";
         return -1;
     }
     /* boilerplate end */
     
     auto time_start = std::chrono::high_resolution_clock::now();
-    //int score = 0;
-    std::string line;
-    std::array<std::deque<char>,10> stacks;
+    int score = 0;
 
-    while(std::getline(in_values, line))
-    {
-        for(int i = 0; i < 9; i++)
-        {
-            if(line[1 + (4*i)] == '0') { continue; }
-            stacks[i].push_back(line[1+(4*i)]);
-        }
-
-    }// while(1);
-
-    int num =0, source =0, dest =0;
-    std::vector<std::string> temp;
-
-    while(std::getline(in_values, line))
-    {
-        if(line == "\n") { break; }
-        temp   = split<std::string>(line, " ");
-        num    = atoi(temp[1].c_str());
-        source = atoi(temp[3].c_str()) - 1;
-        dest   = atoi(temp[5].c_str()) - 1;
-
-        /*
-            for(int i = num; i > 0; i--)
-            {
-                stacks[dest].push_front(stacks[source][i]);
-                stacks[source].pop_front();
-            }
-            for(int i = 0; i < num; i++)
-            {
-                stacks[source].pop_front();
-            }
-        */
-
-        for(int i = 0; i < num; i++)
-        {
-            stacks[9].push_front(stacks[source].front());
-            stacks[source].pop_front();
-        }
-        for(int i = 0; i < num; i++)
-        {
-            stacks[dest].push_front(stacks[9].front());
-            stacks[9].pop_front();
-        }
-    }
-
-    line.clear();
-
-    for(int i = 0; i < 9; i++)
-    {
-        line += stacks[i].front();
-    }
-    results << line;
+    results << score;
 
     in_values.close();
     results.close();
