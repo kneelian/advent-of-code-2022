@@ -113,16 +113,35 @@ uint64_t day6part2(bool testing)
 
     std::array<char,14> chars;
 
-    for(int i = 0; i < 14; i++)
+    /*for(int i = 18; i <= line.size(); i+=14)
     {
-        chars[i] = line[i];
-    }
-
-    for(score = 14; score <= line.size(); score++)
-    {
-        for(int j = 0; j < 14; j++)
+        std::copy(line.begin()+i, line.begin()+i+14, chars.begin());
+        /*fmt::printf("%s\n",chars.data());
+        fmt::printf("%d\n",i)
+        int j, k;
+        for(j = 0; j < 14; j++)
         {
-            for(int k = j+1; k < 14; k++)
+            for(k = j+1; k < 14; k++)
+            {
+                //fmt::printf("\tcomparing %c vs. %c\n", chars[j], chars[k]);
+                if(chars[j] == chars[k])
+                {
+                    goto turbo_continue;
+                }
+            }
+        }
+        score += i + 14;*/
+    for(int i = 0; i <= line.size(); i++)
+    {
+        for(int e = 0; e < 14; e++)
+        {
+            chars[e] = line[i+e];
+        }
+//        std::copy(line.begin()+i, line.begin()+i+14, chars.begin());
+        int j, k;
+        for(j = 0; j < 14; j++)
+        {
+            for(k = j+1; k < 14; k++)
             {
                 if(chars[j] == chars[k])
                 {
@@ -130,17 +149,13 @@ uint64_t day6part2(bool testing)
                 }
             }
         }
-
+        score = i+14;
         break;
 
         turbo_continue:
-        for(int j = 0; j < 13; j++)
-        {
-            chars[j] = chars[j+1];
-        }
-        chars[13] = line[score];
+        void(0);
     }
-
+//    fmt::printf("%d\n",score);/**/
     fmt::fprintf(result, "%d", score);
 
     in_values.close();
