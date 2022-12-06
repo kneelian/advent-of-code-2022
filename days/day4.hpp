@@ -8,9 +8,11 @@
 #include <set>
 #include <iostream>
 
+#define FMT_HEADER_ONLY
+
 #include "useful.hxx"
-
-
+#include "fmt/core.h"
+#include "fmt/printf.h"
 /*
     std::string s = "string_split_example";
     std::string half = s.substr(0, s.length()/2);
@@ -30,11 +32,13 @@ uint64_t day4part1(bool testing)
         return -1;
     }
 
-    if(testing)
-        { results.open("./out/d4p1-t-out.txt", std::ifstream::in); }
-    else{ results.open("./out/d4p1-out.txt",   std::ifstream::in); }
+    std::FILE* result;
 
-    if(!results.is_open()) {
+    if(testing)
+        { result = std::fopen("./out/d4p1-t-out.txt", "r+"); }
+    else{ result = std::fopen("./out/d4p1-out.txt"  , "r+"); }
+
+    if(!result) {
         std::cerr << "Can't open output file for day 4 pt. 1!\n";
         return -1;
     }
@@ -65,10 +69,10 @@ uint64_t day4part1(bool testing)
         ){ score++; }
  
     }
-    results << score;
+    fmt::fprintf(result, "%d", score);
 
     in_values.close();
-    results.close();
+    std::fclose(result);
 
     uint64_t time_total = std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now() - time_start).count();
     
@@ -87,11 +91,13 @@ uint64_t day4part2(bool testing)
         return -1;
     }
 
-    if(testing)
-        { results.open("./out/d4p2-t-out.txt", std::ifstream::in); }
-    else{ results.open("./out/d4p2-out.txt",   std::ifstream::in); }
+    std::FILE* result;
 
-    if(!results.is_open()) {
+    if(testing)
+        { result = std::fopen("./out/d4p2-t-out.txt", "r+"); }
+    else{ result = std::fopen("./out/d4p2-out.txt"  , "r+"); }
+
+    if(!result) {
         std::cerr << "Can't open output file for day 4 pt. 2!\n";
         return -1;
     }
@@ -120,10 +126,10 @@ uint64_t day4part2(bool testing)
             (e2s >= e1s && e2s <= e1e)
         ){score++;}
     }
-    results << score;
+    fmt::fprintf(result, "%d", score);
 
     in_values.close();
-    results.close();
+    std::fclose(result);
 
     uint64_t time_total = std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now() - time_start).count();
     

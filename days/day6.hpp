@@ -8,9 +8,13 @@
 #include <deque>
 #include <iostream>
 #include <array>
+#include <cstdio>
+
+#define FMT_HEADER_ONLY
 
 #include "useful.hxx"
-
+#include "fmt/core.h"
+#include "fmt/printf.h"
 
 /*
     std::string s = "string_split_example";
@@ -31,11 +35,13 @@ uint64_t day6part1(bool testing)
         return -1;
     }
 
-    if(testing)
-        { results.open("./out/d6p1-t-out.txt", std::ifstream::in); }
-    else{ results.open("./out/d6p1-out.txt",   std::ifstream::in); }
+    std::FILE* result;
 
-    if(!results.is_open()) {
+    if(testing)
+        { result = std::fopen("./out/d6p1-t-out.txt", "r+"); }
+    else{ result = std::fopen("./out/d6p1-out.txt"  , "r+"); }
+
+    if(!result) {
         std::cerr << "Can't open output file for day 6 pt. 1!\n";
         return -1;
     }
@@ -66,10 +72,10 @@ uint64_t day6part1(bool testing)
         d = line[i];
     }
 
-    results << score;
+    fmt::fprintf(result, "%d", score);
 
     in_values.close();
-    results.close();
+    std::fclose(result);
 
     uint64_t time_total = std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now() - time_start).count();
     
@@ -84,16 +90,18 @@ uint64_t day6part2(bool testing)
     else{ in_values.open("./in/d6-in.txt",   std::ifstream::in); }
     
     if(!in_values.is_open()) { 
-        std::cerr << "Can't open input file for day 5!\n";
+        std::cerr << "Can't open input file for day 6!\n";
         return -1;
     }
 
-    if(testing)
-        { results.open("./out/d6p2-t-out.txt", std::ifstream::in); }
-    else{ results.open("./out/d6p2-out.txt",   std::ifstream::in); }
+    std::FILE* result;
 
-    if(!results.is_open()) {
-        std::cerr << "Can't open output file for day 6 pt. 1!\n";
+    if(testing)
+        { result = std::fopen("./out/d6p2-t-out.txt", "r+"); }
+    else{ result = std::fopen("./out/d6p2-out.txt"  , "r+"); }
+
+    if(!result) {
+        std::cerr << "Can't open output file for day 6 pt. 2!\n";
         return -1;
     }
     /* boilerplate end */
@@ -103,36 +111,40 @@ uint64_t day6part2(bool testing)
     std::string line;
     std::getline(in_values,line);
 
-    std::string    message_marker;
-    std::set<char> overlap_check ;
+    std::array<char,14> chars;
 
     for(int i = 0; i < 14; i++)
-    { message_marker.push_back(line[i]); }
-
-    for(int i = 13; i <= line.size(); i++)
     {
-        overlap_check.clear();
-        for(int j = 0; j < 14; j++)
-        {
-            overlap_check.insert(message_marker[j]);
-        }
-        if( overlap_check.size() == 14 ) { score = i; break; }
-        
-        message_marker.erase(0,1);
-        message_marker.push_back(line[i]);
+        chars[i] = line[i];
     }
 
-    std::cout << score <<std::endl;
-
-    for(int i = 0; i < message_marker.size(); i++)
+    for(score = 14; score <= line.size(); score++)
     {
-        std::cout << message_marker[i];
-    } std::cout << std::endl;
+        for(int j = 0; j < 14; j++)
+        {
+            for(int k = j+1; k < 14; k++)
+            {
+                if(chars[j] == chars[k])
+                {
+                    goto turbo_continue;
+                }
+            }
+        }
 
-    results << score;
+        break;
+
+        turbo_continue:
+        for(int j = 0; j < 13; j++)
+        {
+            chars[j] = chars[j+1];
+        }
+        chars[13] = line[score];
+    }
+
+    fmt::fprintf(result, "%d", score);
 
     in_values.close();
-    results.close();
+    std::fclose(result);
 
     uint64_t time_total = std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now() - time_start).count();
     

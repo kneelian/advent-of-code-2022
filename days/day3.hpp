@@ -8,15 +8,11 @@
 #include <set>
 #include <iostream>
 
+#define FMT_HEADER_ONLY
+
 #include "useful.hxx"
-
-
-/*
-    std::string s = "string_split_example";
-    std::string half = s.substr(0, s.length()/2);
-    std::string otherHalf = s.substr(s.length()/2);
-*/
-
+#include "fmt/core.h"
+#include "fmt/printf.h"
 
 uint64_t day3part1(bool testing)
 {
@@ -30,11 +26,13 @@ uint64_t day3part1(bool testing)
         return -1;
     }
 
-    if(testing)
-        { results.open("./out/d3p1-t-out.txt", std::ifstream::in); }
-    else{ results.open("./out/d3p1-out.txt",   std::ifstream::in); }
+    std::FILE* result;
 
-    if(!results.is_open()) {
+    if(testing)
+        { result = std::fopen("./out/d3p1-t-out.txt", "r+"); }
+    else{ result = std::fopen("./out/d3p1-out.txt"  , "r+"); }
+
+    if(!result) {
         std::cerr << "Can't open output file for day 3 pt. 1!\n";
         return -1;
     }
@@ -81,10 +79,10 @@ uint64_t day3part1(bool testing)
         }
     }
 
-    results << score;
+    fmt::fprintf(result, "%d", score);
 
     in_values.close();
-    results.close();
+    std::fclose(result);
 
     uint64_t time_total = std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now() - time_start).count();
     
@@ -103,11 +101,13 @@ uint64_t day3part2(bool testing)
         return -1;
     }
 
-    if(testing)
-        { results.open("./out/d3p2-t-out.txt", std::ifstream::in); }
-    else{ results.open("./out/d3p2-out.txt",   std::ifstream::in); }
+    std::FILE* result;
 
-    if(!results.is_open()) {
+    if(testing)
+        { result = std::fopen("./out/d3p2-t-out.txt", "r+"); }
+    else{ result = std::fopen("./out/d3p2-out.txt"  , "r+"); }
+
+    if(!result) {
         std::cerr << "Can't open output file for day 3 pt. 2!\n";
         return -1;
     }
@@ -170,11 +170,10 @@ uint64_t day3part2(bool testing)
         // std::cout << score << std::endl;
     } while(line.size() > 2);
 
-    results << score;
-   // std::cout << score << std::endl;
+    fmt::fprintf(result, "%d", score);
 
     in_values.close();
-    results.close();
+    std::fclose(result);
 
     uint64_t time_total = std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now() - time_start).count();
     
