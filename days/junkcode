@@ -1,0 +1,39 @@
+    for(int x = 14; x < line.size(); x++)
+        if
+        ( 
+            a == b or a == c or a == d or a == e or 
+            a == f or a == g or a == h or a == i or 
+            a == j or a == k or a == l or a == m or a == n or
+            b == c or b == d or b == e or 
+            b == f or b == g or b == h or b == i or 
+            b == j or b == k or b == l or b == m or b == n or
+            c == d or c == e or 
+            c == f or c == g or c == h or c == i or 
+            c == j or c == k or c == l or c == m or c == n or
+            d == e or 
+            d == f or d == g or d == h or d == i or 
+            d == j or d == k or d == l or d == m or d == n or
+            e == f or e == g or e == h or e == i or 
+            e == j or e == k or e == l or e == m or e == n or
+            f == g or f == h or f == i or 
+            f == j or f == k or f == l or f == m or f == n or
+            g == h or g == i or 
+            g == j or g == k or g == l or g == m or g == n or
+            h == i or 
+            h == j or h == k or h == l or h == m or h == n or
+            i == j or i == k or i == l or i == m or i == n or
+            j == k or j == l or j == m or j == n or
+            k == l or k == m or k == n or
+            l == m or l == n or
+            m == n
+        )
+        { 
+            a = b; b = c; c = d; d = e;
+            e = f; f = g; g = h; h = i;
+            i = j; j = k; k = l; l = m;
+            m = n; n = line[x];
+            continue;
+        }
+        score = x;
+        break;
+    }
