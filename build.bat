@@ -1,1 +1,1 @@
-g++ -O3 -o aoc.exe aoc-main.cpp
+clang++ -O3 -o aoc.exe aoc-main.cpp
