@@ -17,7 +17,7 @@
 #include "fmt/core.h"
 #include "fmt/printf.h"
 
-static inline int sign(int x) { return x>0 ? 1 : x<0 ? -1 : 0; }
+static inline int sign(int x)  { return (x > 0)? 1: (x < 0)? -1: 0; }
 
 uint64_t day9part1(bool testing)
 {
@@ -46,7 +46,7 @@ uint64_t day9part1(bool testing)
     auto time_start = std::chrono::high_resolution_clock::now();
     std::string line;
     std::vector<int> visited(512 * 512);
-    std::array<int,2> xpos, ypos;
+    std::array<int,1+1> xpos, ypos;
 
     for(int i = 0; i < xpos.size(); i++)
     {
@@ -82,7 +82,7 @@ uint64_t day9part1(bool testing)
                 ypos[i] += sign(ypos[i-1] - ypos[i]);
             }
 
-            if(!(visited[xpos[1]*512 + ypos[1]] & 1))
+            if(!(visited[xpos[1]*512 + ypos[1]]))
             {
                 visited[xpos[1]*512 + ypos[1]] |= 1;
                 score++;
@@ -127,9 +127,8 @@ uint64_t day9part2(bool testing)
 
     auto time_start = std::chrono::high_resolution_clock::now();
     std::string line;
-    //std::vector<std::string> temp;
-    std::vector<int> visited(512 * 512);
-    std::array<int,10> xpos, ypos;
+    std::vector<int> visited(512 * 512); // for example, it could possibly go lower
+    std::array<int,9+1> xpos, ypos;
 
     for(int i = 0; i < xpos.size(); i++)
     {
@@ -165,9 +164,9 @@ uint64_t day9part2(bool testing)
                 ypos[i] += sign(ypos[i-1] - ypos[i]);
             }
 
-            if(!(visited[xpos[9]*512 + ypos[9]] & 1))
+            if(!(visited[xpos[9]*512 + ypos[9]]))
             {
-                visited[ xpos[9]*512 + ypos[9]] |= 1;
+                visited[ xpos[9]*512 + ypos[9]]++;
                 score++;
             }
         }
