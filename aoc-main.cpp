@@ -6,7 +6,10 @@
 #include <array>
 #include <fstream>
 #include <cmath>
+
+#ifdef _WIN32
 #include <Windows.h>
+#endif
 
 #include "aoc-days.hpp"
 
@@ -72,9 +75,10 @@ int main(int argc, char* argv[])
 		options.push_back(argv[a]);
 	}*/
 	
-
+	#ifdef _WIN32
 	SetConsoleOutputCP(CP_UTF8);
 	setvbuf(stdout, nullptr, _IOFBF, 1000);
+	#endif
 
 	std::function<uint64_t(bool)> part1_array[]
 	= {
@@ -87,7 +91,7 @@ int main(int argc, char* argv[])
 		{ d6p1obj },
 		{ d7p1obj },
 		{ d8p1obj },
-		{ nullptr },
+		{ d9p1obj },
 		{ nullptr },
 		{ nullptr },
 		{ nullptr },
@@ -116,7 +120,7 @@ int main(int argc, char* argv[])
 		{ d6p2obj },
 		{ d7p2obj },
 		{ d8p2obj },
-		{ nullptr },
+		{ d9p2obj },
 		{ nullptr },
 		{ nullptr },
 		{ nullptr },
@@ -191,7 +195,9 @@ int main(int argc, char* argv[])
 						  << std::endl;
 			}
 		}
-		std::cout << "------------------------\nOverall time taken Στ ≈ " << std::setprecision(1) <<  double(overall_time_ns)/1000 << "μs (appx. ~" << std::setprecision(3)<< double(overall_time_ns)/(1000*1000) << "ms)\n" << std::endl;
+		std::cout << "------------------------\nOverall time taken Στ ≈ " << std::setprecision(1) 
+				  <<  double(overall_time_ns)/1000 << "μs (appx. ~" 
+				  << std::setprecision(3) << double(overall_time_ns)/(1000*1000) << "ms)\n" << std::endl;
 	}
 
 	return 0;
