@@ -17,20 +17,7 @@
 #include "fmt/core.h"
 #include "fmt/printf.h"
 
-inline int sign(int n)
-{
-    return (n < 0)? -1: 1; 
-}
-
-inline int abs(int n)
-{
-    return (n < 0)? -n: n;
-}
-
-inline bool adjacent(std::pair<int, int> a, std::pair<int, int> b)
-{
-    return ((abs(a.first - b.first) < 2) && (abs(a.second-b.second) < 2));
-}
+static inline int sign(int x) { return x>0 ? 1 : x<0 ? -1 : 0; }
 
 uint64_t day9part1(bool testing)
 {
@@ -48,7 +35,7 @@ uint64_t day9part1(bool testing)
 
     if(testing)
         { result = std::fopen("./out/d9p1-t-out.txt", "r+"); }
-    else{ result = std::fopen("./out/d8p1-out.txt"  , "r+"); }
+    else{ result = std::fopen("./out/d9p1-out.txt"  , "r+"); }
 
     if(!result) {
         std::cerr << "Can't open output file for day 9 pt. 1!\n";
@@ -58,52 +45,34 @@ uint64_t day9part1(bool testing)
 
     auto time_start = std::chrono::high_resolution_clock::now();
     std::string line;
+    std::vector<std::string> temp;
     std::array<std::array<int, 512>, 512> visited;
-    std::pair<int, int> head, tail;
+    std::array<int,2> xpos, ypos;
 
     std::cout<<"are we segfaulting\n"<<std::endl;
 
     while(std::getline(in_values, line))
     {
-        int dir = line[0]; // 'U', 'D', 'L', 'R'
-        int amt = std::atoi(line.substr(2, 3).c_str());
+        temp = split<std::string>(line, " ");
+        int dir = int(temp[0][0]); // 'U', 'D', 'L', 'R'
+        int amt = std::atoi(temp[1].c_str());
 
-        if(dir == 'R'){ head.first  += amt; } else
-        if(dir == 'L'){ head.first  -= amt; } else
-        if(dir == 'U'){ head.second += amt; } else
-        if(dir == 'D'){ head.second -= amt; }
-
-        //if(adjacent(head, tail)) { continue; }
-
-        if(
-            (abs(head.first  - tail.first) <= 1) &&
-            (abs(head.second - tail.second)<= 1)
-        ){ continue; }
-
-        // if(same first)
-
-        if(head.first == tail.first)
+        while(amt-- > 0)
         {
-            tail.second += sign(head.second - tail.second);
-        } else;
+            int dx = 0, dy = 0;
 
-        // else if (same second)
+            for (int i = 1; i < xpos.size(); i++) {
+                dx = xpos[i-1] - xpos[i];
+                dy = ypos[i-1] - ypos[i];
 
-        if(head.second == tail.second)
-        {
-            tail.first += sign(head.first - tail.first); 
-        } else;
+                if (abs(dx) <= 1 && abs(dy) <= 1)
+                    break; /* rest of rope doesn't move */
 
-        if(abs(head.first - tail.first ) >1)
-        {
-            tail.first  += sign(head.first-tail.first);
-        } else
-        if(abs(head.second - tail.second)>1)
-        {
-            tail.second += sign(head.second-tail.second);
+                xpos[i] += sign(dx);
+                ypos[i] += sign(dy);
+            }
         }
-
-        visited[tail.first][tail.second]++;
+        visited[xpos[1]][ypos[1]]++;
 
     }
 
