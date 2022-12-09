@@ -49,13 +49,32 @@ uint64_t day9part1(bool testing)
     std::array<std::array<int, 512>, 512> visited;
     std::array<int,2> xpos, ypos;
 
-    std::cout<<"are we segfaulting\n"<<std::endl;
+    for(int i = 0; i < xpos.size(); i++)
+    {
+        xpos[i] = ypos[i] = visited.size()/2;
+    }
+
+    for(int i = 0; i < visited.size(); i++)
+    {
+        for(int j = 0; j < visited.size(); j++)
+        {
+            visited[i][j] = 0;
+        }
+    }
 
     while(std::getline(in_values, line))
     {
         temp = split<std::string>(line, " ");
-        int dir = int(temp[0][0]); // 'U', 'D', 'L', 'R'
-        int amt = std::atoi(temp[1].c_str());
+        char dir = temp[0][0]; // 'U', 'D', 'L', 'R'
+        int amt  = std::atoi(temp[1].c_str());
+
+        switch(dir)
+        {
+            case 'U': ypos[0]--; break;
+            case 'D': ypos[0]++; break;
+            case 'L': xpos[0]--; break;
+            case 'R': xpos[0]++; break;
+        }
 
         while(amt-- > 0)
         {
@@ -66,25 +85,17 @@ uint64_t day9part1(bool testing)
                 dy = ypos[i-1] - ypos[i];
 
                 if (abs(dx) <= 1 && abs(dy) <= 1)
-                    break; /* rest of rope doesn't move */
+                    break;
 
                 xpos[i] += sign(dx);
                 ypos[i] += sign(dy);
             }
         }
-        visited[xpos[1]][ypos[1]]++;
-
+        visited[xpos[1]][ypos[1]] |= 1;
     }
 
     int score = 0;
     
-    for(int i = 0; i < visited.size(); i++)
-    {
-        for(int j = 0; j < visited[0].size(); j++)
-        {
-            score += bool(visited[i][j]);
-        }
-    }
 
     fmt::printf ("%d", score);
     fmt::fprintf(result, "%d", score);
@@ -122,13 +133,12 @@ uint64_t day9part2(bool testing)
     /* boilerplate end */
 
     auto time_start = std::chrono::high_resolution_clock::now();
+    std::string line;
+    std::vector<std::string> temp;
+    std::array<std::array<int, 512>, 512> visited;
+    std::array<int,2> xpos, ypos;
 
-    int max = 0;
-
-    fmt::fprintf(result, "%d", max);
-
-    in_values.close();
-    std::fclose(result);
+    std::cout<<"are we segfaulting\n"<<std::endl;
 
     uint64_t time_total = std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now() - time_start).count();
     
