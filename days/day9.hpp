@@ -45,59 +45,52 @@ uint64_t day9part1(bool testing)
 
     auto time_start = std::chrono::high_resolution_clock::now();
     std::string line;
-    std::vector<std::string> temp;
-    std::array<std::array<int, 512>, 512> visited;
+    std::vector<int> visited(512 * 512);
     std::array<int,2> xpos, ypos;
 
     for(int i = 0; i < xpos.size(); i++)
     {
-        xpos[i] = ypos[i] = visited.size()/2;
-    }
-
-    for(int i = 0; i < visited.size(); i++)
-    {
-        for(int j = 0; j < visited.size(); j++)
-        {
-            visited[i][j] = 0;
-        }
-    }
-
-    while(std::getline(in_values, line))
-    {
-        temp = split<std::string>(line, " ");
-        char dir = temp[0][0]; // 'U', 'D', 'L', 'R'
-        int amt  = std::atoi(temp[1].c_str());
-
-        switch(dir)
-        {
-            case 'U': ypos[0]--; break;
-            case 'D': ypos[0]++; break;
-            case 'L': xpos[0]--; break;
-            case 'R': xpos[0]++; break;
-        }
-
-        while(amt-- > 0)
-        {
-            int dx = 0, dy = 0;
-
-            for (int i = 1; i < xpos.size(); i++) {
-                dx = xpos[i-1] - xpos[i];
-                dy = ypos[i-1] - ypos[i];
-
-                if (abs(dx) <= 1 && abs(dy) <= 1)
-                    break;
-
-                xpos[i] += sign(dx);
-                ypos[i] += sign(dy);
-            }
-        }
-        visited[xpos[1]][ypos[1]] |= 1;
+        xpos[i] = ypos[i] = 512/2;
     }
 
     int score = 0;
-    
 
-    fmt::printf ("%d", score);
+    while(std::getline(in_values, line))
+    {
+        char dir = line[0]; // 'U', 'D', 'L', 'R'
+        int  amt = std::atoi(line.substr(1).c_str());
+
+        while(amt-- > 0)
+        {
+            switch(dir)
+            {
+                case 'U': ypos[0]--; break;
+                case 'D': ypos[0]++; break;
+                case 'L': xpos[0]--; break;
+                case 'R': xpos[0]++;
+            }
+
+            for (int i = 1; i < xpos.size(); i++) {
+                if
+                (
+                    abs(xpos[i-1] - xpos[i]) <= 1 and 
+                    abs(ypos[i-1] - ypos[i]) <= 1
+                )
+                { break; }
+
+                xpos[i] += sign(xpos[i-1] - xpos[i]);
+                ypos[i] += sign(ypos[i-1] - ypos[i]);
+            }
+
+            if(!(visited[xpos[1]*512 + ypos[1]] & 1))
+            {
+                visited[xpos[1]*512 + ypos[1]] |= 1;
+                score++;
+            }
+        }
+    }
+
+    //fmt::printf ("%d", score);
     fmt::fprintf(result, "%d", score);
 
     in_values.close();
@@ -134,11 +127,57 @@ uint64_t day9part2(bool testing)
 
     auto time_start = std::chrono::high_resolution_clock::now();
     std::string line;
-    std::vector<std::string> temp;
-    std::array<std::array<int, 512>, 512> visited;
-    std::array<int,2> xpos, ypos;
+    //std::vector<std::string> temp;
+    std::vector<int> visited(512 * 512);
+    std::array<int,10> xpos, ypos;
 
-    std::cout<<"are we segfaulting\n"<<std::endl;
+    for(int i = 0; i < xpos.size(); i++)
+    {
+        xpos[i] = ypos[i] = 512/2;
+    }
+
+    int score = 0;
+
+    while(std::getline(in_values, line))
+    {
+        char dir = line[0]; // 'U', 'D', 'L', 'R'
+        int  amt = std::atoi(line.substr(1).c_str());
+
+        while(amt-- > 0)
+        {
+            switch(dir)
+            {
+                case 'U': ypos[0]--; break;
+                case 'D': ypos[0]++; break;
+                case 'L': xpos[0]--; break;
+                case 'R': xpos[0]++;
+            }
+
+            for (int i = 1; i < xpos.size(); i++) {
+                if
+                (
+                    abs(xpos[i-1] - xpos[i]) <= 1 and 
+                    abs(ypos[i-1] - ypos[i]) <= 1
+                )
+                { break; }
+
+                xpos[i] += sign(xpos[i-1] - xpos[i]);
+                ypos[i] += sign(ypos[i-1] - ypos[i]);
+            }
+
+            if(!(visited[xpos[9]*512 + ypos[9]] & 1))
+            {
+                visited[ xpos[9]*512 + ypos[9]] |= 1;
+                score++;
+            }
+        }
+    }
+
+    //fmt::printf ("%d", score);
+    fmt::fprintf(result, "%d", score);
+
+    in_values.close();
+    std::fclose(result);
 
     uint64_t time_total = std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now() - time_start).count();
     
