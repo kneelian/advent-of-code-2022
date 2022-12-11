@@ -43,32 +43,28 @@ uint64_t day10part1(bool testing)
 
     auto time_start = std::chrono::high_resolution_clock::now();
     std::string line;
-    std::vector<std::string> temp;
 
     int score = 0;
     int cycle = 0;
     int reg_x = 1;
-    int insn = 0;
-    int amnt = 0;
+
     while(std::getline(in_values, line))
     {
         if(line.size() < 2) { break; }
-        temp = split<std::string>(line, " ");
-        insn = temp[0].c_str()[0];
-        
-        if(insn == 'a')
+    
+        if(line == "noop") { 
+            cycle++;
+            if((cycle-20)%40 == 0) {  score += cycle * reg_x; }
+            continue;
+        } 
+        else
         {
             cycle++;
             if((cycle-20)%40 == 0) {  score += cycle * reg_x; }
             cycle++;
             if((cycle-20)%40 == 0) {  score += cycle * reg_x; }
-            reg_x += std::atoi(temp[1].c_str());;
-        } else
-         if(insn == 'n') { 
-            cycle++;
-            if((cycle-20)%40 == 0) {  score += cycle * reg_x; }
-            continue;
-        }
+            reg_x += std::stoi(line.substr(5));
+        } 
     }
     fmt::fprintf(result, "%d", score);
 
@@ -79,6 +75,8 @@ uint64_t day10part1(bool testing)
     
     return time_total;
 } 
+
+static inline int absl(int x)  { return (x > 0)? x: (x < 0)? -x: 0; }
 
 uint64_t day10part2(bool testing)
 {
@@ -92,7 +90,7 @@ uint64_t day10part2(bool testing)
         return -1;
     }
 
-    std::FILE* result;
+    /**/std::FILE* result;
 
     if(testing)
         { result = std::fopen("./out/d10p2-t-out.txt", "r+"); }
@@ -106,36 +104,31 @@ uint64_t day10part2(bool testing)
 
     auto time_start = std::chrono::high_resolution_clock::now();
     std::string line;
-    std::vector<std::string> temp;
 
-    int cycle = 1;
+    std::string output;
+
+    int cycle = 0;
     int reg_x = 1;
-    int insn = 0;
-    int amnt = 0;
+
     while(std::getline(in_values, line))
     {
         if(line.size() < 2) { break; }
-        temp = split<std::string>(line, " ");
-        insn = temp[0].c_str()[0];
-        
-        if(insn == 'a')
+        if(absl(cycle%40 - reg_x) < 2) { output += "#"; } else { output += "."; }
+            if(!(cycle % 40)) { output += "\n"; }
+        if(line == "noop") { 
+            cycle++;
+            continue;
+        } 
+        else
         {
             cycle++;
-            if(absl(cycle - reg_x) < 2){ fmt::printf("#"); } else { fmt::printf("."); }
-            if(!(cycle%40)) { fmt::printf("\n"); }
+            if(absl(cycle%40 - reg_x) < 2) { output += "#"; } else { output += "."; }
+            if(!(cycle % 40)) { output += "\n"; }
             cycle++;
-            if(absl(cycle - reg_x) < 2){ fmt::printf("#"); } else { fmt::printf("."); }
-            if(!(cycle%40)) { fmt::printf("\n"); }
-            reg_x += std::atoi(temp[1].c_str());;
-        } else
-         if(insn == 'n') { 
-            cycle++;
-            
-            continue;
+            reg_x += std::stoi(line.substr(5));
         }
     }
-    fmt::fprintf(result, "%d", 0);
-
+    std::fprintf(result, "%s", output.c_str());
     in_values.close();
     std::fclose(result);
 
