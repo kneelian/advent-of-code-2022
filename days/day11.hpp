@@ -35,16 +35,6 @@ struct Monkey
 
 uint64_t day11part1(bool testing)
 {
-    /* boilerplate */
-    if(testing)
-        { in_values.open("./in/d11-t-in.txt", std::ifstream::in); }
-    else{ in_values.open("./in/d11-in.txt",   std::ifstream::in); }
-    
-    if(!in_values.is_open()) { 
-        std::cerr << "Can't open input file for day 11!\n";
-        return -1;
-    }
-
     std::FILE* result;
 
     if(testing)
@@ -149,16 +139,6 @@ uint64_t day11part1(bool testing)
 
 uint64_t day11part2(bool testing)
 {
-    /* boilerplate */
-    if(testing)
-        { in_values.open("./in/d11-t-in.txt", std::ifstream::in); }
-    else{ in_values.open("./in/d11-in.txt",   std::ifstream::in); }
-    
-    if(!in_values.is_open()) { 
-        std::cerr << "Can't open input file for day 11!\n";
-        return -1;
-    }
-
     std::FILE* result;
 
     if(testing)
