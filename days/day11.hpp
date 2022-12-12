@@ -19,14 +19,14 @@
 
 struct Monkey
 {
-    std::deque<int> items;
+    std::deque<uint64_t> items;
 
-    int operation; // 0 add 1 mul
-    int arg2; // 0 is old worry
+    int operation; // 0 add 1 mul2 sqr
+    int arg2; // 0 is old
 
     int divtest;
-    int false_dest;
     int true_dest;
+    int false_dest;
 };
 
 #define ADD 0
@@ -60,7 +60,7 @@ uint64_t day11part1(bool testing)
     auto time_start = std::chrono::high_resolution_clock::now();
 
     std::vector<Monkey> monkies; 
-    monkies.reserve(8);
+    monkies.resize(8);
     
     monkies[0] = {{98, 70, 75, 80, 84, 89, 55, 98}, MUL, 2,  11, 1, 4};
     monkies[1] = {{59},                             SQR, 0,  19, 7, 3};
@@ -71,37 +71,46 @@ uint64_t day11part1(bool testing)
     monkies[6] = {{99, 51},                         ADD, 1,  13, 5, 2};
     monkies[7] = {{98, 94, 59, 76, 51, 65, 75},     ADD, 5,  2 , 3, 6};
 
-    std::array<int, 8> monky_toss;
+    std::array<uint64_t, 8> monky_toss;
 
-    for(int j = 0; j < 20; j++)
+    for(int i = 0; i < monkies.size(); i++)
+    {
+        fmt::printf
+        (
+            "Monkey %d:\nstarting item number: %d\noperation = %c %d, divtest: %d, truedest: %d, falsedest:%d\n\n", 
+            i, 
+            monkies[i].items.size(), 
+            ((monkies[i].operation)? ((monkies[i].operation == SQR)? '^': '*'): '+'), monkies[i].arg2,
+            monkies[i].divtest,
+            monkies[i].true_dest,
+            monkies[i].false_dest
+        );
+    }
+
+
+    for(int j = 0; j < 19; j++)
     {
         for(int i = 0; i < 8; i++)
         {
             while(!monkies[i].items.empty())
             {
                 if(monkies[i].operation == ADD)
-                { 
-                    monkies[i].items.front() += monkies[i].arg2; 
-                } else if(monkies[i].operation == MUL)
-                { 
-                    monkies[i].items.front() *= monkies[i].arg2;  
-                } else
-                {
-                    monkies[i].items.front() *= monkies[i].items.front(); 
-                }
+                { monkies[i].items.front() += monkies[i].arg2;} 
+
+                else
+                if(monkies[i].operation == MUL)
+                { monkies[i].items.front() *= monkies[i].arg2;} 
+                
+                else // sqr
+                { monkies[i].items.front() *= monkies[i].items.front(); }
 
                 monkies[i].items.front() /= 3;
 
-                if(monkies[i].items.front() % monkies[i].divtest)
-                {
-                    monkies[monkies[i].true_dest].items.push_back(monkies[i].items.front());
-                    monkies[i].items.pop_front();
-                } else
-                {
-                    monkies[monkies[i].false_dest].items.push_back(monkies[i].items.front());
-                    monkies[i].items.pop_front();
-                } 
-                monky_toss[i]++;
+                if(!monkies[i].items.front() % monkies[i].divtest)
+                { monkies[monkies[i].true_dest ].items.push_back(monkies[i].items.front()); } 
+                else
+                { monkies[monkies[i].false_dest].items.push_back(monkies[i].items.front()); } 
+                monkies[i].items.pop_front(); monky_toss[i]++;
             }
         }
     }
